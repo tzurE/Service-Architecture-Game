@@ -1,0 +1,18 @@
+{
+  "name": "service-architecture-game",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "generate-images": "node src/images/create-placeholder-images.js",
+    "add-images": "node src/images/add-component-images.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "canvas": "^2.11.2"
+  }
+} 
