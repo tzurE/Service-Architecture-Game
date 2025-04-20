@@ -741,7 +741,8 @@ export class GameBoard {
 
     componentTypes.forEach(type => {
       const img = new Image();
-      img.src = `/src/images/${type}.png`;
+      img.src = `${import.meta.env.BASE_URL}images/${type}.png`;
+      console.log("img path:", img.src);
       img.onload = () => {
         this.componentImages.set(type, img);
         this.draw(); // Redraw when image is loaded

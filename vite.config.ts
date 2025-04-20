@@ -4,5 +4,6 @@ export default defineConfig({
   base: '/Service-Architecture-Game/',
   server: {
     open: true
-  }
+  },
 }); 
+

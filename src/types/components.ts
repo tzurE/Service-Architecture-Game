@@ -47,12 +47,12 @@ export interface ConnectionProperties {
 
 // Component types
 export enum ComponentType {
-  SERVER = 'SERVER',
-  DATABASE = 'DATABASE',
-  CACHE = 'CACHE',
-  API_GATEWAY = 'API_GATEWAY',
-  LOAD_BALANCER = 'LOAD_BALANCER',
-  USERS = 'USERS'
+  SERVER = 'server',
+  DATABASE = 'database',
+  CACHE = 'cache',
+  API_GATEWAY = 'api_gateway',
+  LOAD_BALANCER = 'load_balancer',
+  USERS = 'users'
 }
 
 // Specific component interfaces
