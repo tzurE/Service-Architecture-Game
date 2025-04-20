@@ -1,4 +1,4 @@
-import { ComponentType, IComponent, Position } from '../types/components';
+import { ComponentType, IComponent } from '../types/components';
 
 export class Level2 {
     private usersComponent: IComponent;

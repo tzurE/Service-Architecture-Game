@@ -1,4 +1,4 @@
-import { ComponentType, IComponent, Position } from '../types/components';
+import { ComponentType, IComponent } from '../types/components';
 
 export class Level1 {
     private usersComponent: IComponent;
@@ -6,7 +6,6 @@ export class Level1 {
     private connectedUsers: number = 0;
     private isComplete: boolean = false;
     private serverCapacity: number = 5; // Base capacity is 5
-    private requiredDatabaseConnections: number = 0;
 
     constructor() {
         // Create the Users component at a fixed position
@@ -46,7 +45,6 @@ Double click on a component to create a new connection from it.`;
     public updateConnections(components: IComponent[]): void {
         // Reset connected users count
         this.connectedUsers = 0;
-        this.requiredDatabaseConnections = 0;
 
         // Find the users component
         const usersComponent = components.find(comp => comp.type === ComponentType.USERS);
@@ -58,16 +56,7 @@ Double click on a component to create a new connection from it.`;
             usersComponent.connections.some(conn => conn.to === comp.id)
         );
 
-        // Count how many servers need database connections
-        this.requiredDatabaseConnections = connectedServers.length;
         
-        // Find all databases that are connected to servers
-        const connectedDatabases = components.filter(comp => 
-            comp.type === ComponentType.DATABASE && 
-            connectedServers.some(server => 
-                server.connections.some(conn => conn.to === comp.id)
-            )
-        );
 
         // Calculate total capacity
         let totalCapacity = 0;
@@ -89,13 +78,13 @@ Double click on a component to create a new connection from it.`;
         this.connectedUsers = Math.min(this.totalUsers, totalCapacity);
 
         // Check if each server has exactly one database connection
-        const allServersHaveOneDB = connectedServers.every(server => {
-            const dbConnections = server.connections.filter(conn => {
-                const targetComp = components.find(c => c.id === conn.to);
-                return targetComp && targetComp.type === ComponentType.DATABASE;
-            });
-            return dbConnections.length === 1;
-        });
+        // const allServersHaveOneDB = connectedServers.every(server => {
+        //     const dbConnections = server.connections.filter(conn => {
+        //         const targetComp = components.find(c => c.id === conn.to);
+        //         return targetComp && targetComp.type === ComponentType.DATABASE;
+        //     });
+        //     return dbConnections.length === 1;
+        // });
 
         // Check win condition
         this.isComplete = this.connectedUsers >= this.totalUsers;

@@ -2,14 +2,14 @@ import { GameBoard } from './components/GameBoard';
 import { ComponentPalette } from './components/ComponentPalette';
 import { WinDialog } from './components/WinDialog';
 import { LevelPanel } from './components/LevelPanel';
-import { ComponentType, IComponent } from './types/components';
+import { IComponent } from './types/components';
 
 // Initialize game board and palette
 const gameBoard = new GameBoard('gameBoard');
 const componentPalette = new ComponentPalette('componentPalette');
 
 // Initialize level panel
-const levelPanel = new LevelPanel(gameBoard, componentPalette);
+new LevelPanel(gameBoard, componentPalette);
 
 // Initialize win dialog
 const winDialog = new WinDialog(

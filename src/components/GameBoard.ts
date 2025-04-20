@@ -10,9 +10,6 @@ export class GameBoard {
   private components: IComponent[] = [];
   private gridSize: number = 50; // Size of each grid cell in pixels
   private selectedComponent: IComponent | null = null;
-  private dragOffset: Position = { x: 0, y: 0 };
-  private isConnecting: boolean = false;
-  private connectionStart: IComponent | null = null;
   private updateCallback: (() => void) | null = null;
   
   // Isometric settings
@@ -119,10 +116,7 @@ export class GameBoard {
       } else if (clickedComponent && clickedComponent.type !== ComponentType.USERS) {
         // Start dragging
         this.selectedComponent = clickedComponent;
-        this.dragOffset = {
-          x: pos.x - clickedComponent.position.x,
-          y: pos.y - clickedComponent.position.y
-        };
+
       }
     } else {
       // Only check for connection removal if we didn't click on a component
@@ -297,37 +291,37 @@ export class GameBoard {
       this.ctx.stroke();
     }
 
-    // Check if this is a server with a database connection
-    if (component.type === ComponentType.SERVER) {
-        const hasDatabase = component.connections.some(conn => {
-            const targetComp = this.components.find(c => c.id === conn.to);
-            return targetComp && targetComp.type === ComponentType.DATABASE;
-        }) || this.components.some(comp => 
-            comp.type === ComponentType.DATABASE && 
-            comp.connections.some(conn => conn.to === component.id)
-        );
+    // // Check if this is a server with a database connection
+    // if (component.type === ComponentType.SERVER) {
+    //     const hasDatabase = component.connections.some(conn => {
+    //         const targetComp = this.components.find(c => c.id === conn.to);
+    //         return targetComp && targetComp.type === ComponentType.DATABASE;
+    //     }) || this.components.some(comp => 
+    //         comp.type === ComponentType.DATABASE && 
+    //         comp.connections.some(conn => conn.to === component.id)
+    //     );
 
-        // Remove the glowing effect
-        // if (hasDatabase) {
-        //     // Draw a glowing effect for servers with database connections
-        //     this.ctx.beginPath();
-        //     this.ctx.moveTo(0, -this.tileHeight/2);
-        //     this.ctx.lineTo(this.tileWidth/2, 0);
-        //     this.ctx.lineTo(0, this.tileHeight/2);
-        //     this.ctx.lineTo(-this.tileWidth/2, 0);
-        //     this.ctx.closePath();
+    //     // Remove the glowing effect
+    //     // if (hasDatabase) {
+    //     //     // Draw a glowing effect for servers with database connections
+    //     //     this.ctx.beginPath();
+    //     //     this.ctx.moveTo(0, -this.tileHeight/2);
+    //     //     this.ctx.lineTo(this.tileWidth/2, 0);
+    //     //     this.ctx.lineTo(0, this.tileHeight/2);
+    //     //     this.ctx.lineTo(-this.tileWidth/2, 0);
+    //     //     this.ctx.closePath();
             
-        //     // Add glow effect
-        //     this.ctx.shadowColor = '#4CAF50';
-        //     this.ctx.shadowBlur = 15;
-        //     this.ctx.strokeStyle = '#4CAF50';
-        //     this.ctx.lineWidth = 3;
-        //     this.ctx.stroke();
+    //     //     // Add glow effect
+    //     //     this.ctx.shadowColor = '#4CAF50';
+    //     //     this.ctx.shadowBlur = 15;
+    //     //     this.ctx.strokeStyle = '#4CAF50';
+    //     //     this.ctx.lineWidth = 3;
+    //     //     this.ctx.stroke();
             
-        //     // Reset shadow
-        //     this.ctx.shadowBlur = 0;
-        // }
-    }
+    //     //     // Reset shadow
+    //     //     this.ctx.shadowBlur = 0;
+    //     // }
+    // }
     
     // Draw component name
     this.ctx.fillStyle = '#000';
@@ -553,39 +547,39 @@ export class GameBoard {
     );
   }
 
-  private isPointNearLine(x: number, y: number, x1: number, y1: number, x2: number, y2: number): boolean {
-    const A = x - x1;
-    const B = y - y1;
-    const C = x2 - x1;
-    const D = y2 - y1;
+  // private isPointNearLine(x: number, y: number, x1: number, y1: number, x2: number, y2: number): boolean {
+  //   const A = x - x1;
+  //   const B = y - y1;
+  //   const C = x2 - x1;
+  //   const D = y2 - y1;
 
-    const dot = A * C + B * D;
-    const lenSq = C * C + D * D;
-    let param = -1;
+  //   const dot = A * C + B * D;
+  //   const lenSq = C * C + D * D;
+  //   let param = -1;
 
-    if (lenSq !== 0) {
-      param = dot / lenSq;
-    }
+  //   if (lenSq !== 0) {
+  //     param = dot / lenSq;
+  //   }
 
-    let xx, yy;
+  //   let xx, yy;
 
-    if (param < 0) {
-      xx = x1;
-      yy = y1;
-    } else if (param > 1) {
-      xx = x2;
-      yy = y2;
-    } else {
-      xx = x1 + param * C;
-      yy = y1 + param * D;
-    }
+  //   if (param < 0) {
+  //     xx = x1;
+  //     yy = y1;
+  //   } else if (param > 1) {
+  //     xx = x2;
+  //     yy = y2;
+  //   } else {
+  //     xx = x1 + param * C;
+  //     yy = y1 + param * D;
+  //   }
 
-    const dx = x - xx;
-    const dy = y - yy;
-    const distance = Math.sqrt(dx * dx + dy * dy);
+  //   const dx = x - xx;
+  //   const dy = y - yy;
+  //   const distance = Math.sqrt(dx * dx + dy * dy);
 
-    return distance < 10; // 10 pixels threshold
-  }
+  //   return distance < 10; // 10 pixels threshold
+  // }
 
   private getConnectionAtPosition(e: MouseEvent): { from: IComponent, to: IComponent } | null {
     const screenPos = this.getMousePosition(e);
