@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/service-game/',
+  base: '/service-architecture-game/',
   server: {
     open: true
   }
